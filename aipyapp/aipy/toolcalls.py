@@ -62,26 +62,21 @@ class ToolResult(BaseModel):
 
 class ExecToolArgs(BaseModel):
     """
-    Execute code
+    Execute the code provided in `code`.
 
-    You can provide executable code in either of the following ways:
-    - Inline code: Provide the full source code directly in the `code` argument.
-    - Referenced code block: Use the `name` argument to reference a code block that is defined in the output message.
+    Use `name` to label this code block so it can be referenced or edited later
+    (e.g. via the AIPY_Edit tool).
 
-    Code block resolution rules:
-    - If `code` is NOT provided: `name` must refer to an defined code block (either in the current or previous output message) or execution must fail.
-    - If code IS provided: A code block identified by name will be created or updated using the provided code.The updated code block becomes the source of truth for execution.
-
-    Execution rules:
-    - Python code is always executable and does not require a file path.
-    - Non-Python code must include a valid `path` attribute that points to the executable file.
-    - The referenced code block must exactly match the given `name`.
+    Rules:
+    - Python code can be executed directly and does not require `path`.
+    - Non-Python code MUST specify `path` to an executable file.
+    - Supported non-Python languages: html, bash, applescript, javascript.
     """
 
-    name: Optional[str] = Field(None, title="Code block name", description="Code block name to execute", min_length=1, strip_whitespace=True)
-    code: Optional[str] = Field(None, title="Code content", description="Code content to execute. Required for new blocks.")
-    lang: Optional[ExecLang] = Field(ExecLang.PYTHON, title="Programming language", description="Programming language (python, bash, markdown, etc.). Defaults to python. If not python, must be specified.")
-    path: Optional[str] = Field(None, title="File path", description="File path to save the code. Optional.")
+    name: Optional[str] = Field(None, title="Code block name", description="Identifier for this code block, used for later editing or reference.", min_length=1, strip_whitespace=True)
+    code: Optional[str] = Field(None, title="Code content", description="The code to be executed.")
+    lang: Optional[ExecLang] = Field(ExecLang.PYTHON, title="Programming language", description="Language of the code. Defaults to python. Required if not python.")
+    path: Optional[str] = Field(None, title="File path", description="Path to the executable file. Required for non-Python code.")
 
 
 class ExecToolResult(ToolResult):
