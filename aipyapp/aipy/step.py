@@ -56,7 +56,7 @@ class Round(BaseModel):
                 if res.is_openai():  # ToolCallResult has id
                     # 确保 result 是字符串
                     content = res.result.to_json() if hasattr(res.result, 'to_json') else str(res.result)
-                    msg = ToolMessage(tool_call_id=res.id, content=content, name=res.tool_name)
+                    msg = ToolMessage(tool_call_id=res.id, content=content)
                     tool_messages.append(msg)
             if tool_messages:
                 return tool_messages

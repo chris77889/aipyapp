@@ -284,7 +284,6 @@ class ToolCallProcessor:
             result = self._call_edit(task, tool_call)
         elif tool_name == ToolName.MCP:
             result = self._call_mcp(task, tool_call)
-            tool_name = result.name
         elif tool_name == ToolName.SUBTASK:
             result = self._call_subtask(task, tool_call)
         elif tool_name == ToolName.SURVEY:
