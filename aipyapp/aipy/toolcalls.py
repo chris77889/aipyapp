@@ -62,16 +62,10 @@ class ToolResult(BaseModel):
 
 class ExecToolArgs(BaseModel):
     """
-    Execute code.
+    Execute code in `code`.
 
-    Behavior:
-    1. If `code` is NOT provided:
-       - `name` MUST be provided and MUST refer to an existing code block defined in the response message.
-       - Execute the code block identified by `name`.
-
-    2. If `code` IS provided:
+    Important:
        - `code` MUST be valid code in the specified language.
-       - Execute the code in `code`.
        - If `name` is also provided, a code block named `name` will be created or updated with the content of `code`.
 
     Language rules:
