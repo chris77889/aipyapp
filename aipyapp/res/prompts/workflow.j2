@@ -56,6 +56,15 @@ complex, isolated code generation, you should delegate that step to a `SubTask`.
 {% endif %}
 </planning_phase>
 
+<summary_phase>
+After finishing the task and producing all required outputs, you must include a summary section of the delivery.
+
+Example:
+## 交付物总结
+- [简要描述产出物 1，例如：市场分析报告草案]
+- [简要描述产出物 2，例如：3 个可行的 Slogan]
+</summary_phase>
+
 {% if features.has('survey') %}
 {% include "survey.j2" %}
 {% endif %}

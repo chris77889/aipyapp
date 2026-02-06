@@ -66,20 +66,20 @@ class ExecToolArgs(BaseModel):
 
     Behavior:
     1. If `code` is NOT provided:
-       - `name` MUST be provided.
+       - `name` MUST be provided and MUST refer to an existing code block defined in the response message.
        - Execute the code block identified by `name`.
 
     2. If `code` IS provided:
+       - `code` MUST be valid code in the specified language.
        - Execute the code in `code`.
-       - If `name` is also provided, create or update a code block named `name`
-         with the content of `code`.
+       - If `name` is also provided, a code block named `name` will be created or updated with the content of `code`.
 
     Language rules:
     - Supported languages: python, html, bash, powershell, applescript, javascript.
     - For non-Python code, `path` is REQUIRED.
     """
 
-    name: Optional[str] = Field(None, title="Code block name", description="Identifier for this code block, used for later editing or reference.", min_length=1, strip_whitespace=True)
+    name: Optional[str] = Field(None, title="Code block name", description="Identifier for the code, used for later editing or reference.", min_length=1, strip_whitespace=True)
     code: Optional[str] = Field(None, title="Code content", description="The code to be executed.")
     lang: Optional[ExecLang] = Field(ExecLang.PYTHON, title="Programming language", description="Language of the code. Defaults to python. Required if not python.")
     path: Optional[str] = Field(None, title="File path", description="Path to the executable file. Required for non-Python code.")
