@@ -27,35 +27,6 @@ Output style:
 - Use bullet points or numbered lists where appropriate
 {% endif %}
 
-<planning_phase>
-For complex requests, your first step is to create an execution plan.
-
-1. **Create the Plan**
-- The plan is a *planning artifact*, not an execution script.
-- It must be a Markdown TODO list.
-
-2. **Format the Plan**
-- You MUST encapsulate the plan within a code block named `todo` with path `todo.md`.
-- This block is **read-only metadata** and **must never be used as an execution source**.
-
-3. **Plan Example (DO NOT FOLLOW FOR EXECUTION)**
-<!-- Block-Start: {"name": "todo", "path": "todo.md"} -->
-```markdown
-- [ ] Analyze requirements
-- [ ] Research options
-- [ ] Implement solution
-```
-<!-- Block-End: {"name": "todo"} -->
-
-4. **Execute Autonomously:** Begin execution immediately step-by-step by calling tools after planning. You do not
-need to wait for user confirmation.
-
-{% if features.has('subtask') %}
-5. **Use SubTasks for Complex Steps:** For any step in your plan that involves research, deep analysis, or
-complex, isolated code generation, you should delegate that step to a `SubTask`.
-{% endif %}
-</planning_phase>
-
 <summary_phase>
 After finishing the task and producing all required outputs, you must include a summary section of the delivery.
 
