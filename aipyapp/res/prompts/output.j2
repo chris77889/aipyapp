@@ -34,18 +34,6 @@ print(resp.text)
 </good_example>
 </code_block_markers>
 
-<todo_block>
-You should include a TODO block in the output if there are many steps to be done.
-
-Example:
-<!-- Block-Start: {"name": "todo", "path": "todo.md"} -->
-```markdown
-- [ ] Step 1
-- [ ] Step 2
-```
-<!-- Block-End: {"name": "todo"} -->   
-</todo_block>
-
 {% if features.has('exec_code', 'aipy_call') %}
 <tool_call_markers>
 You may insert ToolCall usages into Markdown output using the following HTML comment format:
