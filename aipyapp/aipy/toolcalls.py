@@ -32,11 +32,11 @@ class ToolSource(str, Enum):
 class ToolName(str, Enum):
     """Tool name"""
 
-    EDIT = "AIPY_Edit"
-    EXEC = "AIPY_Exec"
+    EDIT = "Edit"
+    EXEC = "Exec"
     MCP = "MCP"
-    SUBTASK = "AIPY_SubTask"
-    SURVEY = "AIPY_Survey"
+    SUBTASK = "SubTask"
+    SURVEY = "Survey"
 
 
 class ExecLang(str, Enum):
@@ -62,24 +62,18 @@ class ToolResult(BaseModel):
 
 class ExecToolArgs(BaseModel):
     """
-    Execute code.
+    Execute code in `code`.
 
-    Behavior:
-    1. If `code` is NOT provided:
-       - `name` MUST be provided.
-       - Execute the code block identified by `name`.
-
-    2. If `code` IS provided:
-       - Execute the code in `code`.
-       - If `name` is also provided, create or update a code block named `name`
-         with the content of `code`.
+    Important:
+       - `code` MUST be valid code in the specified language.
+       - If `name` is also provided, a code block named `name` will be created or updated with the content of `code`.
 
     Language rules:
     - Supported languages: python, html, bash, powershell, applescript, javascript.
     - For non-Python code, `path` is REQUIRED.
     """
 
-    name: Optional[str] = Field(None, title="Code block name", description="Identifier for this code block, used for later editing or reference.", min_length=1, strip_whitespace=True)
+    name: Optional[str] = Field(None, title="Code block name", description="Identifier for the code, used for later editing or reference.", min_length=1, strip_whitespace=True)
     code: Optional[str] = Field(None, title="Code content", description="The code to be executed.")
     lang: Optional[ExecLang] = Field(ExecLang.PYTHON, title="Programming language", description="Language of the code. Defaults to python. Required if not python.")
     path: Optional[str] = Field(None, title="File path", description="Path to the executable file. Required for non-Python code.")
@@ -267,7 +261,7 @@ class ToolCallProcessor:
                 block_name = getattr(tool_call.arguments, 'name', None)
                 if block_name and block_name in failed_blocks:
                     error = Error.new('Execution skipped: previous edit of the block failed', block_name=block_name)
-                    results.append(ToolCallResult(name=name, funcname=tool_call.funcname or ToolName.EXEC.value, id=tool_call.id, result=ExecToolResult(block_name=block_name, error=error)))
+                    results.append(ToolCallResult(name=name, funcname=tool_call.funcname or ToolName.EXEC.value, source=tool_call.source, id=tool_call.id, result=ExecToolResult(block_name=block_name, error=error)))
                     continue
 
             # 执行工具调用
